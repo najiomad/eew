@@ -1,0 +1,58 @@
+/* ページ全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  /* ヘッダーのスタイル */
+  h1 {
+    font-size: 24px;
+  }
+  
+  /* 情報項目のスタイル */
+  p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  /* コメントのスタイル */
+  #comments {
+    font-style: italic;
+    margin-top: 20px;
+  }
+  
+  /* テーブルのスタイル */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+  }
+  
+  /* 更新ボタンのスタイル */
+  #updateButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  #updateButton:hover {
+    background-color: #45a049;
+  }
+  

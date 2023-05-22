@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>地震情報</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>最新の地震情報 <small>※常時更新されます。</small></h1>
+  <p>発生日時: <span id="dateTime"></span></p>
+  <p>震源深さ: <span id="depth"></span></p>
+  <p>マグニチュード: <span id="magnitude"></span></p>
+  <p>最大震度: <span id="maxInt"></span></p>
+  <p id="comments"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+  <script>
+    // カウントを保持する変数
+    let count = 0;
+
+    // データを取得して表を更新する関数
+    function fetchData() {
+      $.ajax({
+        url: 'https://dev.narikakun.net/webapi/earthquake/post_data.json',
+        dataType: 'json',
+        success: function(data) {
+          const infoTable = $('#informationTable tbody')
+          infoTable.empty();
+          const intTable = $('#earthquakeTable tbody');
+          intTable.empty();
+          
+          const dateTime = $('#dateTime').text(data.Body.Earthquake.OriginTime); // 発生時刻
+          const depth = $('#depth').text(data.Body.Earthquake.Hypocenter.Depth);
+          const latitude = $('#latitude').text(data.Body.Earthquake.Hypocenter.Latitude);
+          const longitude = $('#longitude').text(data.Body.Earthquake.Hypocenter.Longitude);
+          const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude);
+          const maxInt = $('#maxInt').text(data.Body.Intensity.Observation.MaxInt);
+          const comments = $('#comments').text(data.Body.Comments.Observation);
+
+          // カウントを更新
+          count++;
+          $('#count').text(count);
+        },
+        error: function(xhr, status, error) {
+          // エラーメッセージを取得
+          var errorMsg = "データの取得中にエラーが発生しました。";
+
+          // エラーメッセージが表示中かどうかをチェック
+          if (!errorDisplayed || errorMessage !== errorMsg) {
+            // エラーメッセージを表示
+            swal({
+              title: "エラー",
+              text: errorMsg,
+              icon: "error",
+              timer: 30000 // エラーメッセージを表示する時間（ミリ秒）
+            });
+
+            // エラーメッセージを一時的に保存
+            errorDisplayed = true;
+            errorMessage = errorMsg;
+
+          }
+        }
+      });
+    }
+
+    // 初回のデータ取得
+    fetchData();
+
+    // 定期的にデータを更新
+    setInterval(fetchData, 1000); // 1秒ごとに更新
+
+    // 手動更新ボタンのクリックイベント
+    $('#updateButton').click(function() {
+      fetchData();
+    });
+  </script>
+</body>
+</html>

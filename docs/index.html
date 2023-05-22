@@ -13,6 +13,7 @@
   <p>マグニチュード: <span id="magnitude"></span></p>
   <p>最大震度: <span id="maxInt"></span></p>
   <p id="comments"></p>
+  <button id="update">手動更新</button>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
   <script>
@@ -72,7 +73,7 @@
     setInterval(fetchData, 1000); // 1秒ごとに更新
 
     // 手動更新ボタンのクリックイベント
-    $('#updateButton').click(function() {
+    $('#update').click(function() {
       fetchData();
     });
   </script>

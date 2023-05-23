@@ -23,7 +23,7 @@ p {
 }
 
 /* 更新ボタンのスタイル */
-#updateButton {
+#update {
   display: inline-block;
   padding: 10px 20px;
   background-color: #4CAF50;

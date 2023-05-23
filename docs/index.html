@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <title>地震情報</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
   <h1>最新の地震情報 <small>※常時更新されます。</small></h1>
+  <p>最終更新時刻: <span id="lastUpdatedTime"></span></p>
+
+
   <p>発生日時: <span id="dateTime"></span></p>
+  <p>震源地: <span id="hypocenter"></span></p>
   <p>震源深さ: <span id="depth"></span></p>
   <p>マグニチュード: <span id="magnitude"></span></p>
   <p>最大震度: <span id="maxInt"></span></p>
@@ -25,25 +31,26 @@
       $.ajax({
         url: 'https://dev.narikakun.net/webapi/earthquake/post_data.json',
         dataType: 'json',
-        success: function(data) {
-          const infoTable = $('#informationTable tbody')
-          infoTable.empty();
-          const intTable = $('#earthquakeTable tbody');
-          intTable.empty();
-          
+        success: function (data) {
+
+          // データの取得と表示の更新
           const dateTime = $('#dateTime').text(data.Body.Earthquake.OriginTime); // 発生時刻
-          const depth = $('#depth').text(data.Body.Earthquake.Hypocenter.Depth);
-          const latitude = $('#latitude').text(data.Body.Earthquake.Hypocenter.Latitude);
-          const longitude = $('#longitude').text(data.Body.Earthquake.Hypocenter.Longitude);
-          const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude);
-          const maxInt = $('#maxInt').text(data.Body.Intensity.Observation.MaxInt);
-          const comments = $('#comments').text(data.Body.Comments.Observation);
+          const depth = $('#depth').text(data.Body.Earthquake.Hypocenter.Depth); // 震源深さ
+          const hypocenter = $('#hypocenter').text(data.Body.Earthquake.Hypocenter.Name); // 震源地
+          // const latitude = $('#latitude').text(data.Body.Earthquake.Hypocenter.Latitude); // 震源緯度
+          // const longitude = $('#longitude').text(data.Body.Earthquake.Hypocenter.Longitude); // 震源経度
+          const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude); // マグニチュード
+          const maxInt = $('#maxInt').text(data.Body.Intensity.Observation.MaxInt); // 最大震度
+          const comments = $('#comments').text(data.Body.Comments.Observation); // その他情報
+
+          const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
+          $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
 
           // カウントを更新
           count++;
           $('#count').text(count);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           // エラーメッセージを取得
           var errorMsg = "データの取得中にエラーが発生しました。";
 
@@ -73,9 +80,10 @@
     setInterval(fetchData, 1000); // 1秒ごとに更新
 
     // 手動更新ボタンのクリックイベント
-    $('#update').click(function() {
+    $('#update').click(function () {
       fetchData();
     });
   </script>
 </body>
+
 </html>

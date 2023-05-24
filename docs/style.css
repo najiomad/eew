@@ -2,38 +2,59 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
+  padding: 10px;
+  background-color: white;
+  color: black;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
 }
 
 /* ヘッダーのスタイル */
 h1 {
-  font-size: 24px;
+  font-size: 20px;
 }
 
-/* 情報項目のスタイル */
-p {
-  font-size: 18px;
-  margin-bottom: 10px;
+h2 {
+  font-size: 20px;
 }
 
-/* コメントのスタイル */
-#comments {
-  font-style: italic;
-  margin-top: 20px;
+/* 情報セクションのスタイル */
+.info-section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 更新ボタンのスタイル */
-#update {
-  display: inline-block;
+/* 情報アイテムのスタイル */
+.item {
+  border: none;
+  border-radius: 4px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+/* ボタンのスタイル */
+button {
   padding: 10px 20px;
   background-color: #4CAF50;
   color: #fff;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 20px;
+  border-radius: 4px;
 }
 
-#updateButton:hover {
-  background-color: #45a049;
+/* コメントのスタイル */
+#status {
+  color: red;
+}
+
+#comments {
+  font-style: italic;
+  margin-top: 20px;
 }

@@ -2,6 +2,8 @@
 <html lang="ja">
 
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>地震情報</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="style.css">
@@ -9,22 +11,51 @@
 </head>
 
 <body>
-  <h1>最新の地震情報 <small>※常時更新されます。</small></h1>
-  <p>最終更新時刻: <span id="lastUpdatedTime"></span></p>
 
-
-  <p>発生日時: <span id="dateTime"></span></p>
-  <p>震源地: <span id="hypocenter"></span></p>
-  <p>震源深さ: <span id="depth"></span></p>
-  <p>マグニチュード: <span id="magnitude"></span></p>
-  <p>最大震度: <span id="maxInt"></span></p>
-  <p id="comments"></p>
-  <button id="update">手動更新</button>
+  <div class="container">
+    <h1>最新の地震情報</h1>
+    <div class="info-section">
+      <div class="info-group">
+        <h2 id="title"></h2>
+        <p>
+          最終更新時刻
+        </p>
+        <p id="lastUpdatedTime"></p>
+      </div>
+      <div class="info-group">
+        <p id="status"></p>
+        <p class="info-item">
+          発生日時
+        </p>
+        <p class="item" id="dateTime"></p>
+        <p class="info-item">
+          震源地
+        </p>
+        <p class="item" id="hypocenter"></p>
+        <p class="info-item">
+          震源深さ
+        </p>
+        <p class="item" id="depth"></p>
+        <p class="info-item">
+          マグニチュード
+        </p>
+        <p class="item" id="magnitude"></p>
+        <p class="info-item">
+          最大震度
+        </p>
+        <p class="item" id="maxInt"></p>
+        </p>
+      </div>
+      <div class="info-group">
+        <p id="comments"></p>
+        <button id="update">手動更新</button>
+      </div>
+    </div>
+    <p>このアプリはベータ版です。</p>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
   <script>
-    // カウントを保持する変数
-    let count = 0;
 
     // データを取得して表を更新する関数
     function fetchData() {
@@ -34,21 +65,56 @@
         success: function (data) {
 
           // データの取得と表示の更新
+          const status = data.Control.Status;
+          if (status == '通常') {
+            $('#status').text('');
+          } else {
+            $('#status').text("この情報は" + status + "です。実際に発生した地震ではありません。");
+          }
+
+          const title = $('#title').text(data.Head.Title); // タイトル
           const dateTime = $('#dateTime').text(data.Body.Earthquake.OriginTime); // 発生時刻
-          const depth = $('#depth').text(data.Body.Earthquake.Hypocenter.Depth); // 震源深さ
           const hypocenter = $('#hypocenter').text(data.Body.Earthquake.Hypocenter.Name); // 震源地
+          const depth = data.Body.Earthquake.Hypocenter.Depth;
+          if (depth == 0) {
+            $('#depth').text("ごく浅い");
+          } else {
+            $('#depth').text(depth + "km");
+          }
           // const latitude = $('#latitude').text(data.Body.Earthquake.Hypocenter.Latitude); // 震源緯度
           // const longitude = $('#longitude').text(data.Body.Earthquake.Hypocenter.Longitude); // 震源経度
           const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude); // マグニチュード
-          const maxInt = $('#maxInt').text(data.Body.Intensity.Observation.MaxInt); // 最大震度
           const comments = $('#comments').text(data.Body.Comments.Observation); // その他情報
 
           const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
           $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
 
-          // カウントを更新
-          count++;
-          $('#count').text(count);
+          const maxInt = data.Body.Intensity.Observation.MaxInt; // 最大震度
+          $('#maxInt').text(maxInt);
+
+          // 最大震度に応じて色を設定
+          if (maxInt == 1) {
+            $('#maxInt').css('color', '#ffffff');
+            $('#maxInt').css('background-color', '#00bfff');
+          } else if (maxInt == 2) {
+            $('#maxInt').css('color', '#000000');
+            $('#maxInt').css('background-color', '#adff2f');
+          } else if (maxInt == 3) {
+            $('#maxInt').css('color', '#000000');
+            $('#maxInt').css('background-color', '#ffff00');
+          } else if (maxInt == 4) {
+            $('#maxInt').css('color', '#000000');
+            $('#maxInt').css('background-color', '#ffa500');
+          } else if (maxInt == "5-" || maxInt == "5+") {
+            $('#maxInt').css('color', '#ffffff');
+            $('#maxInt').css('background-color', '#ff0000');
+          } else if (maxInt == "6-" || maxInt == "6+") {
+            $('#maxInt').css('color', '#ffffff');
+            $('#maxInt').css('background-color', '#ff00ff');
+          } else if (maxInt == 7) {
+            $('#maxInt').css('color', '#ffffff');
+            $('#maxInt').css('background-color', '#800080');
+          }
         },
         error: function (xhr, status, error) {
           // エラーメッセージを取得

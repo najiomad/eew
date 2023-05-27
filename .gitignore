@@ -4,3 +4,7 @@ package-lock.json
 package.json
 .env
 *.log
+*.zip
+*.tar.gz
+aws/
+*.txt

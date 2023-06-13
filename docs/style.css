@@ -1,6 +1,5 @@
-/* ページ全体のスタイル */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'BIZ UDPGothic', sans-serif;
   margin: 0;
   padding: 10px;
   background-color: white;
@@ -36,6 +35,8 @@ h2 {
   border-radius: 4px;
   background-color: #ffffff;
   text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /* ボタンのスタイル */
@@ -57,4 +58,16 @@ button {
 #comments {
   font-style: italic;
   margin-top: 20px;
+}
+
+.space {
+  padding: 20px;
+}
+
+footer {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1);
 }

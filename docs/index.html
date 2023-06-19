@@ -71,9 +71,12 @@
     <p>注意：このアプリで表示される情報の正確性は保証されていません。</p>
     <footer>
       <ul class="creditsList">
-        <li><a href="https://ntool.online/apidoc/earthquakeapi" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> データ元</a></li>
-        <li><a href="https://fonts.google.com/specimen/BIZ%2BUDPGothic" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> 使用フォント</a></li>
-        <li><a href="https://github.com/vipelar/quake-info/README.md" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> その他ライブラリ等</a></li>
+        <li><a href="https://ntool.online/apidoc/earthquakeapi" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> データ元</a></li>
+        <li><a href="https://fonts.google.com/specimen/BIZ%2BUDPGothic" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> 使用フォント</a></li>
+        <li><a href="https://github.com/vipelar/quake-info/README.md" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> その他ライブラリ等</a></li>
       </ul>
       <p id="copyright">Copyright &copy; 2023 Vipelar. All Rights Reserved.</p>
     </footer>
@@ -168,8 +171,8 @@
                 $('#maxInt').css('background-color', '#800080');
               }
             }
-              const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
-              $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
+            const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
+            $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
           } else {
             $('#internetStatus').css('display', 'block');
             // エラーメッセージを取得

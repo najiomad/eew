@@ -20,21 +20,22 @@
 
 <body>
   <header>
-    <h1 class="header">Vipelar quake-info</h1>
-    <!-- <i class="fas fa-external-link" style="color: #ffffff;"></i></i><a href="https://vipelar.web.app" class="header">Vipelar homepage</a> -->
-    <!-- <i class="fas fa-language" style="color: #ffffff;"></i><a href="languages.html" class="header">Languages(beta)</a> -->
+    <h1><a href="../index.html" class="headerTitle">Vipelar Quake Info</a></h1>
+    <!-- <a href="#" class="header"><i class="fas fa-external-link" style="color: #ffffff;"></i>Vipelar homepage</a> -->
   </header>
   <div class="container">
-    <p id="internetStatus"></p>
     <h1>地震情報</h1>
     <div class="info-section">
+
+      <p id="internetStatus">インタネットがオフラインです。<br>Wi-Fiまたはモバイルデータ通信をご確認ください。</p>
       <p id="status"></p>
+
       <div class="info-group">
         <h2 id="title"></h2>
         <p>
           最終更新時刻
         </p>
-        <p id="lastUpdatedTime"></p>
+        <p class="item" id="lastUpdatedTime"></p>
       </div>
       <div class="info-group">
         <p class="info-item">
@@ -67,9 +68,14 @@
     <div class="space"></div>
     <hr>
 
+    <p>注意：このアプリで表示される情報の正確性は保証されていません。</p>
     <footer>
-      <p>このアプリはベータ版です。<br>このアプリで表示される情報の正確性は<strong>保証されていません</strong>。</p>
-      <p id="copyright">Copyright &copy; 2023 vipelar. All Rights Reserved.</p>
+      <ul class="creditsList">
+        <li><a href="https://ntool.online/apidoc/earthquakeapi" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> データ元</a></li>
+        <li><a href="https://fonts.google.com/specimen/BIZ%2BUDPGothic" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> 使用フォント</a></li>
+        <li><a href="https://github.com/vipelar/quake-info/README.md" class="creditsItem" target="_blank"><i class="fas fa-external-link" style="color: #000000;"></i> その他ライブラリ等</a></li>
+      </ul>
+      <p id="copyright">Copyright &copy; 2023 Vipelar. All Rights Reserved.</p>
     </footer>
   </div>
 
@@ -80,86 +86,92 @@
       $.ajax({
         url: 'https://dev.narikakun.net/webapi/earthquake/post_data.json',
         dataType: 'json',
-        success: function (data, textStatus, xhr) {
+        success: function (data) {
           if (navigator.onLine) {
-            $('#internetStatus').text('');
-            // データの取得と表示の更新
-            const status = data.Control.Status;
-            if (status == '通常') {
-              $('#status').text('');
-            } else {
-              $('#status').text('この情報は' + status + 'です。実際に発生した地震ではありません。');
-            }
+            $('#internetStatus').css('display', 'none');
 
-            const title = data.Head.Title; // タイトル
-            $('#title').text(data.Head.Title);
-            const dateTimeRaw = data.Body.Earthquake.OriginTime; // 発生時刻
-            const dateTime = new Date(dateTimeRaw);
-            const formattedDateTime = dateTime.toLocaleString('ja-JP', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-            });
-            $('#dateTime').text(formattedDateTime);
-
-            const hypocenter = $('#hypocenter').text(data.Body.Earthquake.Hypocenter.Name); // 震源地
-            const depth = data.Body.Earthquake.Hypocenter.Depth;
-            if (depth == 0) {
-              $('#depth').text('ごく浅い');
-            } else {
-              $('#depth').text(depth + 'km');
-            }
-            const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude); // マグニチュード
-            const comments = $('#comments').text(data.Body.Comments.Observation); // その他情報
-
-            const maxInt = data.Body.Intensity.Observation.MaxInt; // 最大震度          
-            // 最大震度に応じて色を設定
-            if (title == '遠地地震に関する情報') {
-              $('#maxInt').text('情報なし');
-            } else if (maxInt == 1) {
-              $('#maxInt').text(maxInt);
-              $('#maxInt').css('color', '#ffffff');
-              $('#maxInt').css('background-color', '#00bfff');
-            } else if (maxInt == 2) {
-              $('#maxInt').text(maxInt);
-              $('#maxInt').css('color', '#000000');
-              $('#maxInt').css('background-color', '#adff2f');
-            } else if (maxInt == 3) {
-              $('#maxInt').text(maxInt);
-              $('#maxInt').css('color', '#000000');
-              $('#maxInt').css('background-color', '#ffff00');
-            } else if (maxInt == 4) {
-              $('#maxInt').text(maxInt);
-              $('#maxInt').css('color', '#000000');
-              $('#maxInt').css('background-color', '#ffa500');
-            } else if (maxInt == '5-' || maxInt == '5+') {
-              if (maxInt == '5-') {
-                $('#maxInt').text('5弱');
+            const eventID = data.Head.EventID;
+            $('#eventID').text(eventID);
+            if (eventID != latestEventID) {
+              latestEventID = eventID;
+              // データの取得と表示の更新
+              const status = data.Control.Status;
+              if (status == '通常') {
+                $('#status').text('');
               } else {
-                $('#maxInt').text('5強');
+                $('#status').text('この情報は' + status + 'です。情報共有の際は十分にご注意ください。');
               }
-              $('#maxInt').css('color', '#ffffff');
-              $('#maxInt').css('background-color', '#ff0000');
-            } else if (maxInt == '6-' || maxInt == '6+') {
-              if (maxInt == '6-') {
-                $('#maxInt').text('6弱');
-              } else {
-                $('#maxInt').text('6強');
-              }
-              $('#maxInt').css('color', '#ffffff');
-              $('#maxInt').css('background-color', '#ff00ff');
-            } else if (maxInt == 7) {
-              $('#maxInt').text(maxInt);
-              $('#maxInt').css('color', '#ffffff');
-              $('#maxInt').css('background-color', '#800080');
-            }
 
-            const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
-            $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
+              const title = data.Head.Title; // タイトル
+              $('#title').text(data.Head.Title);
+              const dateTimeRaw = data.Body.Earthquake.OriginTime; // 発生時刻
+              const dateTime = new Date(dateTimeRaw);
+              // 日時のフォーマットを変更
+              const formattedDateTime = dateTime.toLocaleString('ja-JP', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              });
+              $('#dateTime').text(formattedDateTime);
+
+              const hypocenter = $('#hypocenter').text(data.Body.Earthquake.Hypocenter.Name); // 震源地
+              const depth = data.Body.Earthquake.Hypocenter.Depth;
+              if (depth == 0) {
+                $('#depth').text('ごく浅い');
+              } else {
+                $('#depth').text(depth + 'km');
+              }
+              const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude); // マグニチュード
+              const comments = $('#comments').text(data.Body.Comments.Observation); // その他情報
+
+              const maxInt = data.Body.Intensity.Observation.MaxInt; // 最大震度          
+              // 最大震度に応じて色を設定
+              if (title == '遠地地震に関する情報') {
+                $('#maxInt').text('情報なし');
+              } else if (maxInt == 1) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#00bfff');
+              } else if (maxInt == 2) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#adff2f');
+              } else if (maxInt == 3) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#ffff00');
+              } else if (maxInt == 4) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#ffa500');
+              } else if (maxInt == '5-' || maxInt == '5+') {
+                if (maxInt == '5-') {
+                  $('#maxInt').text('5弱');
+                } else {
+                  $('#maxInt').text('5強');
+                }
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#ff0000');
+              } else if (maxInt == '6-' || maxInt == '6+') {
+                if (maxInt == '6-') {
+                  $('#maxInt').text('6弱');
+                } else {
+                  $('#maxInt').text('6強');
+                }
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#ff00ff');
+              } else if (maxInt == 7) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#800080');
+              }
+            }
+              const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
+              $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
           } else {
-            $('#internetStatus').text('オフラインです');
+            $('#internetStatus').css('display', 'block');
             // エラーメッセージを取得
             var errorMsg = 'データの取得中にエラーが発生しました。';
 
@@ -183,6 +195,7 @@
     }
 
     // 初回のデータ取得
+    let latestEventID = null;
     fetchData();
 
     // 定期的にデータを更新

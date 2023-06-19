@@ -29,6 +29,7 @@
 - 地震データは [nTool Earthquake API](https://ntool.online/apidoc/earthquakeapi) から取得されます。
 - エラーメッセージの表示には SweetAlert2 ライブラリを使用しています。SweetAlert2に関する詳細な情報は [SweetAlert 2 のホームページ](https://sweetalert2.github.io/) を参照してください。
 - フォントは [BIZ UDPGothic](https://fonts.google.com/specimen/BIZ%2BUDPGothic) を使用しています。
+- リンク等で使用しているアイコンには [FontAwesome](https://fontawesome.com) を使用しています。
 - データの取得にajaxを使用しています。詳細は [こちら](https://developer.mozilla.org/ja/docs/Web/Guide/AJAX) 。
 - その他様々な処理に [jQuery](https://jquery.com/) を使用しています。
 

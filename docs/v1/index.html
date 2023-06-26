@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vipelar Quake Info v1</title>
+  <!-- フォント読み込み -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300&family=BIZ+UDPGothic&display=swap"
+    rel="stylesheet">
+  <script src="https://kit.fontawesome.com/d964722ec4.js" crossorigin="anonymous"></script>
+  <!-- その他読み込み -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <header>
+    <h1><a href="../index.html" class="headerTitle">Vipelar Quake Info</a></h1>
+    <!-- <a href="#" class="header"><i class="fas fa-external-link" style="color: #ffffff;"></i>Vipelar homepage</a> -->
+  </header>
+  <div class="container">
+    <h1>地震情報</h1>
+    <div class="info-section">
+
+      <p id="internetStatus">インタネットがオフラインです。<br>Wi-Fiまたはモバイルデータ通信をご確認ください。</p>
+      <p id="status"></p>
+
+      <div class="info-group">
+        <h2 id="title"></h2>
+        <p>
+          最終更新時刻
+        </p>
+        <p class="item" id="lastUpdatedTime"></p>
+      </div>
+      <div class="info-group">
+        <p class="info-item">
+          発生日時
+        </p>
+        <p class="item" id="dateTime"></p>
+        <p class="info-item">
+          震源地
+        </p>
+        <p class="item" id="hypocenter"></p>
+        <p class="info-item">
+          震源深さ
+        </p>
+        <p class="item" id="depth"></p>
+        <p class="info-item">
+          マグニチュード
+        </p>
+        <p class="item" id="magnitude"></p>
+        <p class="info-item">
+          最大震度
+        </p>
+        <p class="item" id="maxInt"></p>
+        </p>
+      </div>
+      <div class="info-group">
+        <p id="comments"></p>
+        <button id="update">手動更新</button>
+      </div>
+    </div>
+    <div class="space"></div>
+    <hr>
+
+    <p>注意：このアプリで表示される情報の正確性は保証されていません。</p>
+    <footer>
+      <ul class="creditsList">
+        <li><a href="https://ntool.online/apidoc/earthquakeapi" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> データ元</a></li>
+        <li><a href="https://fonts.google.com/specimen/BIZ%2BUDPGothic" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> 使用フォント</a></li>
+        <li><a href="https://fontawesome.com/" class="creditsItem" target="_blank"><i
+              class="fas fa-external-link" style="color: #000000;"></i> アイコン</a></li>
+        <li><a href="https://github.com/vipelar/quake-info/blob/main/README.md#クレジット" class="creditsItem"><i
+              class="fas fa-external-link" style="color: #000000;"></i> その他ライブラリ等</a></li>
+      </ul>
+      <p id="copyright">Copyright &copy; 2023 Vipelar. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+  <script>
+    // データを取得して表を更新する関数
+    function fetchData() {
+      $.ajax({
+        url: 'https://dev.narikakun.net/webapi/earthquake/post_data.json',
+        dataType: 'json',
+        success: function (data) {
+          if (navigator.onLine) {
+            $('#internetStatus').css('display', 'none');
+
+            const eventID = data.Head.EventID;
+            $('#eventID').text(eventID);
+            if (eventID != latestEventID) {
+              latestEventID = eventID;
+              // データの取得と表示の更新
+              const status = data.Control.Status;
+              if (status == '通常') {
+                $('#status').text('');
+              } else {
+                $('#status').text('この情報は' + status + 'です。情報共有の際は十分にご注意ください。');
+              }
+
+              const title = data.Head.Title; // タイトル
+              $('#title').text(data.Head.Title);
+              const dateTimeRaw = data.Body.Earthquake.OriginTime; // 発生時刻
+              const dateTime = new Date(dateTimeRaw);
+              // 日時のフォーマットを変更
+              const formattedDateTime = dateTime.toLocaleString('ja-JP', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              });
+              $('#dateTime').text(formattedDateTime);
+
+              const hypocenter = $('#hypocenter').text(data.Body.Earthquake.Hypocenter.Name); // 震源地
+              const depth = data.Body.Earthquake.Hypocenter.Depth;
+              if (depth == 0) {
+                $('#depth').text('ごく浅い');
+              } else {
+                $('#depth').text(depth + 'km');
+              }
+              const magnitude = $('#magnitude').text(data.Body.Earthquake.Magnitude); // マグニチュード
+              const comments = $('#comments').text(data.Body.Comments.Observation); // その他情報
+
+              const maxInt = data.Body.Intensity.Observation.MaxInt; // 最大震度          
+              // 最大震度に応じて色を設定
+              if (title == '遠地地震に関する情報') {
+                $('#maxInt').text('情報なし');
+              } else if (maxInt == 1) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#00bfff');
+              } else if (maxInt == 2) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#adff2f');
+              } else if (maxInt == 3) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#ffff00');
+              } else if (maxInt == 4) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#000000');
+                $('#maxInt').css('background-color', '#ffa500');
+              } else if (maxInt == '5-' || maxInt == '5+') {
+                if (maxInt == '5-') {
+                  $('#maxInt').text('5弱');
+                } else {
+                  $('#maxInt').text('5強');
+                }
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#ff0000');
+              } else if (maxInt == '6-' || maxInt == '6+') {
+                if (maxInt == '6-') {
+                  $('#maxInt').text('6弱');
+                } else {
+                  $('#maxInt').text('6強');
+                }
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#ff00ff');
+              } else if (maxInt == 7) {
+                $('#maxInt').text(maxInt);
+                $('#maxInt').css('color', '#ffffff');
+                $('#maxInt').css('background-color', '#800080');
+              }
+            }
+            const lastUpdatedTime = new Date().toLocaleString('ja-JP'); // 最終更新時刻を取得
+            $('#lastUpdatedTime').text(lastUpdatedTime); // 最終更新時刻を表示
+          } else {
+            $('#internetStatus').css('display', 'block');
+            // エラーメッセージを取得
+            var errorMsg = 'データの取得中にエラーが発生しました。';
+
+            // エラーメッセージが表示中かどうかをチェック
+            if (!errorDisplayed || errorMessage !== errorMsg) {
+              // エラーメッセージを表示
+              swal({
+                title: 'エラー',
+                text: errorMsg,
+                icon: 'error',
+                timer: 30000 // エラーメッセージを表示する時間（ミリ秒）
+              });
+
+              // エラーメッセージを一時的に保存
+              errorDisplayed = true;
+              errorMessage = errorMsg;
+            }
+          }
+        },
+      });
+    }
+
+    // 初回のデータ取得
+    let latestEventID = null;
+    fetchData();
+
+    // 定期的にデータを更新
+    setInterval(fetchData, 1000); // 1秒ごとに更新
+
+    // 手動更新ボタンのクリックイベント
+    $('#update').click(function () {
+      fetchData();
+    });
+  </script>
+
+</body>
+
+</html>

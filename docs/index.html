@@ -259,7 +259,7 @@
                 for (const area of areaData) {
                   const areaName = area.Name;
                   const maxIntensityInArea = area.MaxInt;
-                  console.log(`${prefectureName}${areaName}で震度${maxIntensityInArea}`);
+                  // console.log(`${prefectureName}${areaName}で震度${maxIntensityInArea}`);
 
                   // 市町村ごとのデータ
                   if (area.City) {
@@ -267,7 +267,7 @@
                     for (const city of cityData) {
                       const cityName = city.Name;
                       const maxIntensityInCity = city.MaxInt
-                      console.log(`${prefectureName}${areaName}${cityName}で震度${maxIntensityInCity}`);
+                      console.log(`${cityName}で震度${maxIntensityInCity}`);
 
                       switch (maxIntensityInCity) {
                         case '5-':
@@ -293,7 +293,7 @@
                         for (const station of stationData) {
                           const stationName = station.Name;
                           const intensityAtStation = station.Int;
-                          console.log(`観測点${stationName}で震度${intensityAtStation}`);
+                          // console.log(`観測点${stationName}で震度${intensityAtStation}`);
                         }
                       }
                     }

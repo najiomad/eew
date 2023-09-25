@@ -9,3 +9,7 @@ package.json
 aws/
 *.txt
 !docs/DSEG-LICENSE.txt
+docs/
+.firebase/
+.firebaserc
+firebase.json

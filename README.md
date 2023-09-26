@@ -1,37 +1,40 @@
-# 地震情報アプリ
+# Vipelar ホームページ
 
-この地震情報アプリは、地震データを表示するウェブアプリケーションです。現在のバージョンでは、地震の発生日時、震源の深さ、マグニチュード、最大震度のデータを提供します。
+Vipelar のホームページです。
+
+## クレジット
+
+- スタイルの設定、アニメーション等に[Bootstrap](https://getbootstrap.jp/)を使用しています。
+- アニメーション等の処理に [jQuery](https://jquery.com/) を使用しています。
+
+# Vipelar Quake-Info
+
+Vipelar Quake-Info は、地震データを表示するウェブアプリケーションです。現在のバージョンでは、地震の発生日時、震源の深さ、マグニチュード、最大震度のデータを提供します。
 
 ## 特徴
 
-- 自動的に（1秒ごと）地震データを取得して表示します。
+- 自動的に（1 秒ごと）地震データを取得して表示します。
 - 自動更新が止まった際など、ユーザーが地震データを手動で更新することもできます。
-
-## 使用技術
-
-- HTML（言語）
-- CSS（言語）
-- JavaScript（言語）
-- jQuery（ライブラリ）
-- SweetAlert2（エラーメッセージの表示のためのライブラリ）
-- AJAX（地震データの取得のためのライブラリ）
+- HTML、CSS、JavaScript を使用して公開されています。
+- jQuery、SweetAlert2、FontAwesome などのライブラリを使用しています。
 
 ## 使い方
 
-1. [Vipelar Quake Info](https://vipelar.github.io/quake-info/) にアクセスする（注：現在はv1のみ）。
+1. [Vipelar Quake-Info](https://vipelar-team.web.app/quake-info/index.html) にアクセスする。
 2. 地震情報が表示されます。
 3. 万が一自動更新が止まっても、地震データは手動で更新することができます。「手動更新」ボタンをクリックしてください。
 4. 地震情報をご覧ください。表示されるデータは最新ではない可能性がありますのでご注意ください。
 
 ## クレジット
 
-ライブラリ、フォント等をご提供くださった皆様に感謝いたします。
 - 地震データは [nTool Earthquake API](https://ntool.online/apidoc/earthquakeapi) から取得しています。
 - エラーメッセージの表示には [SweetAlert2](https://sweetalert2.github.io/) を使用しています。
 - フォントは [BIZ UDPGothic](https://fonts.google.com/specimen/BIZ%2BUDPGothic) を使用しています。
 - リンク等で使用しているアイコンには [FontAwesome](https://fontawesome.com) を使用しています。
-- データの取得にajaxを使用しています。詳細は [こちら](https://developer.mozilla.org/ja/docs/Web/Guide/AJAX) 。
+- データの取得に ajax を使用しています。詳細は [こちら](https://developer.mozilla.org/ja/docs/Web/Guide/AJAX) 。
 - その他様々な処理に [jQuery](https://jquery.com/) を使用しています。
+
+# 総合的な事項
 
 ## 免責事項
 
@@ -41,11 +44,8 @@
 
 このプロジェクトは MIT ライセンスのもとで公開されています。詳細については [LICENSE](LICENSE) ファイルを参照してください。
 
-## 既知の問題
-iPadOS 17.0(beta) のChromeで情報の更新が遅れることがあるようです。
-
 ## その他
 
-LICENSEファイルの正式版は英語、このREADMEファイルの正式版は日本語とし、それ以外の言語では効力を発揮しないものとします。
+LICENSE ファイルの正式版は英語、この README ファイルの正式版は日本語とし、それ以外の言語では効力を発揮しないものとします。
 
 Copyright &copy; 2023 Vipelar. All rights Reserved.

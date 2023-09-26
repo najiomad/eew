@@ -13,3 +13,6 @@ docs/
 .firebase/
 .firebaserc
 firebase.json
+*.png
+*.jpg
+*.jpeg

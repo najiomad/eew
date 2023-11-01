@@ -6,13 +6,10 @@ package.json
 *.log
 *.zip
 *.tar.gz
-aws/
 *.txt
-!docs/DSEG-LICENSE.txt
 docs/
-.firebase/
-.firebaserc
-firebase.json
 *.png
 *.jpg
 *.jpeg
+.*
+!.gitignore

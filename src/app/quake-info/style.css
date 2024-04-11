@@ -126,7 +126,7 @@ footer {
   color: black;
 }
 
-#internetStatus {
+.caution {
   display: none;
   color: #404040;
   border: none;

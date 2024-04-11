@@ -26,14 +26,16 @@
   <div class="container">
     <h1>地震情報</h1>
     <div class="info-section">
-
-      <p id="internetStatus">インタネットがオフラインです。<br>Wi-Fiまたはモバイルデータ通信をご確認ください。</p>
+      
+      <!-- <p id="internetStatus" class="caution">インタネットがオフラインです。<br>Wi-Fiまたはモバイルデータ通信をご確認ください。</p> -->
+      <p class="caution">自動更新はされません。最新の情報を得るためには手動で更新する必要があります。</p>
       <p id="status"></p>
-
+      
       <div class="info-group">
         <h2 id="title"></h2>
+        <button id="update"><!--手動-->更新</button>
         <p>
-          最終更新時刻
+          <!--最終-->更新時刻
         </p>
         <p class="item" id="lastUpdatedTime"></p>
       </div>
@@ -104,7 +106,6 @@
       </div>
       <div class="info-group">
         <p id="comments"></p>
-        <button id="update">手動更新</button>
       </div>
     </div>
     <div class="space"></div>
@@ -357,11 +358,11 @@
     fetchData();
 
     // 定期的にデータを更新
-    setInterval(fetchData, 1000); // 1秒ごとに更新
+    // setInterval(fetchData, 1000); // 1秒ごとに更新
 
     // 手動更新ボタンのクリックイベント
     $('#update').click(function () {
-      fetchData();
+      window.location.reload();
     });
 
     // ドロップダウンメニュー

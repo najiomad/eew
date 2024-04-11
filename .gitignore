@@ -7,7 +7,6 @@ package.json
 *.zip
 *.tar.gz
 *.txt
-docs/
 *.png
 *.jpg
 *.jpeg

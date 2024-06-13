@@ -10,5 +10,7 @@ package.json
 *.png
 *.jpg
 *.jpeg
-.*
 !.gitignore
+firebase.json
+.*
+node_modules/**

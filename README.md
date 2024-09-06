@@ -18,4 +18,4 @@ Vipelar のホームページです。
 
 LICENSE ファイルの正式版は英語、この README ファイルの正式版は日本語とし、それ以外の言語では効力を持たないものとします。
 
-Copyright &copy; 2023 Vipelar. All rights Reserved.
+Copyright &copy; 2023-2024 Vipelar. All rights Reserved.

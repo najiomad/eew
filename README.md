@@ -1,5 +1,5 @@
 # 目次
-- quake-infoをご利用の方は[こちら](quake-info.md)を、counterをご利用の方は[こちら](counter.md)をご確認ください。
+- quake-infoをご利用の方は[こちら](quake-info.md)を併せてご確認ください。
 
 # Vipelar ホームページ
 
